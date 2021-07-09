@@ -1,0 +1,47 @@
+user_01:
+  countryCode: en
+  deezer_client_settings:
+    arl: d32c00a1b79a5e8e4267b333cd9dcf72aa2c294ab425c57ebf630af79d44dc8f798b922bfdf91a73eb4996513984941854a5330fdfa4c4c6dc1ec5b844380109ef0a682d9e613d0b4604c7b1233343f4bbd2fa7105df4132635f71c05fedc4ce
+    userId: 2869048344
+  tags:
+    album: true
+    albumArtist: true
+    artist: true
+    barcode: true
+    bpm: true
+    composer: true
+    copyright: true
+    cover: true
+    coverDescriptionUTF8: true
+    date: true
+    discNumber: true
+    discTotal: true
+    explicit: true
+    genre: true
+    involvedPeople: true
+    isrc: true
+    label: true
+    length: true
+    lyrics: true
+    multiArtistSeparator: default
+    replayGain: false
+    saveID3v1: true
+    savePlaylistAsCompilation: true
+    singleAlbumArtist: true
+    source: true
+    syncedLyrics: true
+    title: true
+    trackNumber: true
+    trackTotal: true
+    useNullSeparator: true
+    year: true
+  tidal_client_settings:
+    access_token: null
+    deviceCode: null
+    expiresIn: null
+    expires_in: null
+    interval: null
+    refresh_token: null
+    userCode: null
+    userId: null
+    verificationUri: null
