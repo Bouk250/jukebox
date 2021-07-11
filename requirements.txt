@@ -1,2 +1,4 @@
 requests
 colorlog
+dataclasses-json
+marshmallow
