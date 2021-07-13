@@ -1,1 +1,0 @@
-from .url_analyser import *
