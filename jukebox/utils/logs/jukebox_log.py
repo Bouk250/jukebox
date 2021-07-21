@@ -2,7 +2,7 @@ import logging
 from colorlog import ColoredFormatter, StreamHandler, getLogger, basicConfig
 
 formatter = ColoredFormatter(
-	"%(log_color)s[%(asctime)s - %(levelname)-6s]%(reset)s - %(message)s",
+	"%(log_color)s[%(asctime)s - %(levelname)-6s]%(reset)s %(message)s",
 	datefmt='%Y/%m/%d %H:%M:%S',
 	log_colors={
 		'DEBUG':    'cyan',
