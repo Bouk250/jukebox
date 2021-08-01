@@ -1,6 +1,6 @@
 import re
 
-from typing import Union
+from typing import Union, Iterable
 
 from jukebox.lib.types import Types, Services, Uri
 import eventlet
@@ -19,10 +19,23 @@ def get_url_from_sti(service:Services, url_type:Types, id:Union[str,int]) -> str
     if service == Services.DEEZER:
        return f"https://www.deezer.com/{type.value}/{id}"
         
-def url_uri_analizer(url_uri:str) -> Uri:    
-    if 'deezer.page.link' in url_uri: url_uri = urlopen(url_uri).url
+def UrisGenerater(urls_uris:Union[str, Iterable[str]]) -> Union[Uri, Iterable[Uri]]:  
+
+    def url_uri_analyzr(url_uri: str) -> Uri:
+        if 'deezer.page.link' in url_uri: url_uri = urlopen(url_uri).url
+        
+        m = re.search('(^https:\/\/)?(?(1).*(?P<url_service>deezer|tidal).+(?P<url_type>track|album|artist|video|playlist|isrc)\/(?P<url_id>\w+)|^(?P<uri_service>deezer|tidal):(?P<uri_type>track|album|artist|video|playlist|isrc):(?P<uri_id>\w+))', url_uri, flags=re.IGNORECASE)
+        if m is not None:
+            return Uri(service=Services(m.group('url_service') or m.group('uri_service')), type=Types(m.group('url_type') or m.group('uri_type')), id=m.group('url_id') or m.group('uri_id'))
+        return None
+
+    if isinstance(urls_uris, Iterable):
+        uris = []
+        for url_uri in urls_uris:
+            uri = url_uri_analyzr(url_uri)
+            if uri:
+                uris.append(uri)
+        uris = list(set(uris))
+        return uris
     
-    m = re.search('(^https:\/\/)?(?(1).*(?P<url_service>deezer|tidal).+(?P<url_type>track|album|artist|video|playlist|isrc)\/(?P<url_id>\w+)|^(?P<uri_service>deezer|tidal):(?P<uri_type>track|album|artist|video|playlist|isrc):(?P<uri_id>\w+))', url_uri, flags=re.IGNORECASE)
-    if m is not None:
-        return Uri(service=Services(m.group('url_service') or m.group('uri_service')), type=Types(m.group('url_type') or m.group('uri_type')), id=m.group('url_id') or m.group('uri_id'))
-    return None
+    return url_uri_analyzr(urls_uris)

@@ -3,7 +3,6 @@ import unittest
 import  sys
 import time
 from jukebox.lib.client import  DeezerClient, TidalClient
-from jukebox.utils.result import ResultCode
 
 
 class TestServicesLogin(unittest.TestCase):

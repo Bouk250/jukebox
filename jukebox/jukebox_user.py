@@ -1,7 +1,7 @@
 
 from jukebox.lib.types.types import StreamUrl
 from jukebox.lib.status_codes.jukebox_status_codes import JukeBoxStatus
-from typing import Iterable, NoReturn, Tuple, Union
+from typing import Iterable, NoReturn, Tuple, Union, Mapping
 from aiohttp import ClientSession, ClientTimeout
 
 from jukebox.lib.types import Services, Uri, Track, FormatMap
@@ -63,8 +63,10 @@ class JukeBoxUser:
     async def login(self, service:Services, **kwargs):
         await self.client_manager.login(service, **kwargs)
 
-    async def get_tracks(self, uris:Iterable[Union[str,Uri]]) -> Iterable[Tuple[JukeBoxStatus,Track]]:
+    async def get_tracks(self, uris:Union[Uri,Iterable[Uri]]) -> Mapping[Uri, Tuple[JukeBoxStatus,Track]]:
+        if type(uris) is Uri:
+            uris = [uris]
         return await self.client_manager.get_tracks(uris)
 
-    async def get_tracks_stream_url(self, format_map:FormatMap, tracks:Iterable[Track]) -> Iterable[Tuple[JukeBoxStatus, Track, StreamUrl]]:
+    async def get_tracks_stream_url(self, format_map:FormatMap, tracks:Iterable[Track]) -> Mapping[Uri, Tuple[JukeBoxStatus, StreamUrl]]:
         return await self.client_manager.get_tracks_stream_url(format_map, tracks)
