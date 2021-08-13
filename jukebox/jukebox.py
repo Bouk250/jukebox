@@ -6,7 +6,7 @@ import asyncio
 from jukebox.lib.settings import JukeBoxSettings
 from jukebox.lib.downloader import JukeBoxItem
 
-from jukebox.lib.decrypter.decrypter import Decrypter
+from jukebox.lib.decrypter import NullDecrypter
 
 __version__ = "Prototype - 0.0.2"
 
@@ -34,6 +34,7 @@ class JukeBox:
         for item in args:
             self.work_queue.put_nowait(item)
 
+    """
     def start(self):
         async def downloader(name, queue:asyncio.Queue):
             async with aiohttp.ClientSession() as session:
@@ -52,7 +53,7 @@ class JukeBox:
         for i in range(5):
             task = asyncio.create_task(downloader(f'worker-{i}', self.work_queue))
             self.tasks.append(task)
-    
+    """
     async def close(self):
 
         await self.work_queue.join()

@@ -70,3 +70,6 @@ class JukeBoxUser:
 
     async def get_tracks_stream_url(self, format_map:FormatMap, tracks:Iterable[Track]) -> Mapping[Uri, Tuple[JukeBoxStatus, StreamUrl]]:
         return await self.client_manager.get_tracks_stream_url(format_map, tracks)
+
+    async def generate_jukebox_downloaders(self):
+        pass
