@@ -4,7 +4,7 @@ from typing import Iterable, Mapping
 from jukebox.lib.types import Uri, Track, StreamUrl
 
 class JukeBoxItem:
-    def __init__(self, track:Track, stream_url:StreamUrl) -> None:
+    def __init__(self, track:Track, stream_url:StreamUrl, parent_collection:JukeboxItemCollection) -> None:
         self.track = track
         self.stream_url = stream_url
 
@@ -14,6 +14,7 @@ class JukeBoxItem:
         
         self.canceled = False
         self.download_settings = None
+        self.parent_collection:JukeboxItemCollection = parent_collection
 
         self.session:ClientSession = ClientSession()
 
@@ -41,3 +42,6 @@ class JukeboxItemCollection:
         self.jukebox_items:Mapping[Uri, JukeBoxItem] = {}
 
         self.total_size = sum([item.file_size for _, item in self.jukebox_items.items()])
+
+    def add(self,track:Track, stream_url:StreamUrl):
+        self.jukebox_items.update({track.uri:JukeBoxItem(track,stream_url)})

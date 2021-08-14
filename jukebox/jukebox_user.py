@@ -1,9 +1,10 @@
-
-from jukebox.lib.types.types import StreamUrl
-from jukebox.lib.status_codes.jukebox_status_codes import JukeBoxStatus
 from typing import Iterable, NoReturn, Tuple, Union, Mapping
 from aiohttp import ClientSession, ClientTimeout
 
+from jukebox_item import JukeboxItemCollection
+
+from jukebox.lib.types.types import StreamUrl
+from jukebox.lib.status_codes.jukebox_status_codes import JukeBoxStatus, JukeBoxStatusCode
 from jukebox.lib.types import Services, Uri, Track, FormatMap
 from jukebox.lib.settings import JukeBoxUserSettings
 from jukebox.lib.client import ServiceClientManager
@@ -71,5 +72,9 @@ class JukeBoxUser:
     async def get_tracks_stream_url(self, format_map:FormatMap, tracks:Iterable[Track]) -> Mapping[Uri, Tuple[JukeBoxStatus, StreamUrl]]:
         return await self.client_manager.get_tracks_stream_url(format_map, tracks)
 
-    async def generate_jukebox_downloaders(self):
-        pass
+    async def generate_jukebox_downloaders(self, uris:Union[Uri,Iterable[Uri]], format_map:FormatMap) -> Mapping[Uri, Tuple[JukeBoxStatus, JukeboxItemCollection]]:
+        tracks = await self.get_tracks(uris)
+        tracks_list = [track for _, (status, track) in tracks.items() if status.status_code == JukeBoxStatusCode.Success]
+
+        stream_urls = await self.get_tracks_stream_url(format_map,tracks_list)
+        stream_url_list = [track for _, (status, track) in tracks.items() if status.status_code == JukeBoxStatusCode.Success]

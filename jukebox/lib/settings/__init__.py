@@ -1,0 +1,1 @@
+from .settings import DeezerSetings, ClientManagerSettings, JukeBoxUserSettings, JukeBoxSettings, TidalSetings, TidalKey
